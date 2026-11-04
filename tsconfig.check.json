@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "baseUrl": "."
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/components/ui/**/*.ts",
+    "src/components/ui/**/*.tsx",
+    "src/components/app-shell/**/*.tsx",
+    "src/lib/direction.ts",
+    "src/lib/api/**/*.ts",
+    "src/lib/artefacts/**/*.ts",
+    "src/features/artefacts/**/*.ts",
+    "src/features/artefacts/**/*.tsx",
+    "src/app/api/methodologies/route.ts",
+    "src/app/api/lesson-plans/**/*.ts",
+    "src/app/api/feedback/**/*.ts",
+    "src/app/[locale]/(app)/**/*.ts",
+    "src/app/[locale]/(app)/**/*.tsx",
+    "src/lib/ai/http-generator.ts",
+    "src/app/api/generate/**/*.ts",
+    "src/features/tools/lib/direction.ts"
+  ]
+}

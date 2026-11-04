@@ -1,42 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* LUMORA foundations.
    Direction is architectural: every rule here uses logical properties so the
    same stylesheet serves Arabic (RTL) and English (LTR). Browser surfaces —
    selection, caret, scrollbars, focus rings — are themed from the palette
-   rather than left at defaults. */
+   rather than left at defaults.
 
+   Values live in ./tokens.css. This file uses them; it does not define them.
+   The only variables declared here are the landing-page extension tokens, which
+   are a documented, owner-approved exception that lives on one surface. */
+
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Focus: one ring, purple, everywhere. Gold may outline it on dark surfaces. */
 :root {
-  /* Font stacks. Arabic and Latin are distinct: an Arabic face must set Arabic,
-     and the Latin face must not be used for it. */
-  /* next/font (layout.tsx) injects --font-arabic and --font-display on <html>.
-     The fallbacks keep Arabic legible before the face swaps. */
-  /* Per-glyph fallback: the Arabic file first, the Latin file only for what it
-     does not contain. Both are self-hosted (see src/design/fonts.ts). */
-  --font-arabic: var(--font-text-ar), var(--font-text-lat), "Noto Naskh Arabic", system-ui, sans-serif;
-  /* Latin runs (the LUMORA name, English UI) in the same Plex skeleton as the
-     Arabic body, so a mixed line keeps one stroke weight. */
-  --font-latin: var(--font-text-lat), var(--font-text-ar), system-ui, sans-serif;
-  /* El Messiri sets both Arabic and Latin, so headlines need no second family. */
-  --font-display: var(--font-display-ar), var(--font-display-lat), "Noto Naskh Arabic",
-    system-ui, sans-serif;
+  --focus: var(--focus-ring);
+}
 
-  --lumora-red: #DA291C;
-  --lumora-navy: #1D2A44;
-  --lumora-purple: #4B1E61;
-  --lumora-gold: #D4AF37;
-  --lumora-paper: #F8F9FA;
-  --lumora-ink: #16202f;
-  --lumora-ink-soft: #5a6675;
-  --lumora-line: #e3e7ec;
-  --focus: #DA291C;
-
-  /* Landing-page extension tokens — OWNER-APPROVED for the landing page only
-     (2026-11-01). Gradient, glass and gold treatments are permitted there and
-     nowhere else. Values are measured from the reference mockup; the sampling
-     positions are in docs/design/premium-brief.md. */
+/* --------------------------------------------------------------------------
+   Landing-page extension tokens — OWNER-APPROVED for the landing page only
+   (2026-11-01, LUMORA-CONSTITUTION.md §3.1). Gradient, glass and gold
+   treatments are permitted there and nowhere else. Values are measured from the
+   reference mockup; the sampling positions are in docs/design/premium-brief.md.
+   -------------------------------------------------------------------------- */
+:root {
   --lumora-purple-900: #23033F;
   --lumora-purple-800: #2F0B49;
   --lumora-lavender-100: #F5E9F4;
@@ -52,8 +41,8 @@ html {
 }
 
 body {
-  background: var(--lumora-paper);
-  color: var(--lumora-ink);
+  background: var(--surface-ground);
+  color: var(--text-primary);
   font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
 }
@@ -61,15 +50,15 @@ body {
 /* Arabic sets taller and needs looser leading; Latin stays tighter. */
 [lang="ar"] body,
 [lang="ar"] {
-  font-family: var(--font-arabic), system-ui, sans-serif;
-  line-height: 1.75;
-  letter-spacing: 0; /* never letter-space Arabic */
+  font-family: var(--font-arabic);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-arabic); /* never letter-space Arabic */
 }
 
 [lang="en"] body,
 [lang="en"] {
-  font-family: var(--font-latin), system-ui, sans-serif;
-  line-height: 1.55;
+  font-family: var(--font-latin);
+  line-height: var(--leading-normal);
 }
 
 ::selection {
@@ -78,9 +67,19 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: var(--focus-ring-width) solid var(--focus);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
+/* Form controls focus in navy, everything else in purple.
+   The brief for the design system asks for a navy focus ring on inputs and
+   selects; DESIGN.md names purple for focus generally. Both are permitted by
+   constitution §3.1 ("focus rings use navy or purple"). Only one element holds
+   focus at a time, so the two are never on screen together — which is why this
+   is a deliberate divergence and not an inconsistency. */
+.focus-navy {
+  --focus: var(--lumora-navy);
 }
 
 /* Tabular data must align in both directions. */
@@ -93,12 +92,28 @@ body {
   unicode-bidi: isolate;
 }
 
+/* Directional icons mirror in RTL.
+   A chevron that still points to the physical right in Arabic points the wrong
+   way — in RTL, "forward" is to the left. This is the one transform a UI kit must
+   apply, and it is applied by class rather than per-component so a new icon
+   cannot forget it. Non-directional icons (a bell, a book) must NOT carry this
+   class: mirroring a clock or a logo is a bug, not a courtesy. */
+[dir="rtl"] .icon-directional {
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [dir="rtl"] .icon-directional {
+    transition: none;
+  }
+}
+
 *::-webkit-scrollbar { width: 10px; height: 10px; }
 *::-webkit-scrollbar-track { background: transparent; }
 *::-webkit-scrollbar-thumb {
   background: var(--lumora-line);
-  border-radius: 999px;
-  border: 2px solid var(--lumora-paper);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--surface-ground);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -120,7 +135,7 @@ body {
   background: linear-gradient(90deg, #eceff3 25%, #f6f8fa 37%, #eceff3 63%);
   background-size: 400% 100%;
   animation: lumora-shimmer 1.4s ease-in-out infinite;
-  border-radius: 6px;
+  border-radius: var(--radius-xs);
 }
 
 /* ==========================================================================
@@ -133,23 +148,24 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
+  text-wrap: balance;
 }
 
 /* Three weights in use overall. H1 takes 700 and section headings 600: El
    Messiri has no 800, and stretching a 700 to fake one would blunt the
    calligraphic terminals the face is chosen for. */
 h1 {
-  font-weight: 700;
+  font-weight: var(--weight-bold);
 }
 h2,
 h3 {
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
 }
 
 /* The wordmark, wherever the name is set as text rather than the supplied image. */
 .wordmark {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: normal;
 }
 
@@ -160,5 +176,5 @@ h3 {
 .btn-sm,
 .label {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
 }

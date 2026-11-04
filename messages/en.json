@@ -7,7 +7,10 @@
   "nav": {
     "students": "Students",
     "dashboard": "Teacher dashboard",
-    "langSwitch": "العربية"
+    "langSwitch": "العربية",
+    "plans": "Lesson plans",
+    "methods": "Methods",
+    "feedback": "Feedback"
   },
   "students": {
     "title": "My students",
@@ -366,5 +369,207 @@
       "benefits": "Platform benefits",
       "heroArt": "Decorative background"
     }
+  },
+  "appShell": {
+    "navigation": "Main navigation",
+    "bottomNavigation": "Bottom navigation",
+    "signOut": "Sign out",
+    "signedInAs": "Signed in as",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "back": "Back",
+    "search": "Search",
+    "print": "Print",
+    "copy": "Copy",
+    "copied": "Copied",
+    "somethingWentWrong": "That did not work. Please try again.",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "That link is wrong or is no longer available."
+  },
+  "dashboard": {
+    "title": "Teacher dashboard",
+    "greeting": "Welcome",
+    "today": "Today",
+    "recentPlans": "Recent plans",
+    "stagedFeedback": "Feedback waiting for you",
+    "stagedFeedbackCount": "{count, plural, =0 {Nothing waiting} one {1 note to review} other {# notes to review}}",
+    "quickActions": "Quick actions",
+    "newPlan": "New plan",
+    "browseMethods": "Browse methods",
+    "reviewFeedback": "Review feedback",
+    "emptyTitle": "Nothing here yet",
+    "emptyBody": "Start with a lesson plan and it will appear here."
+  },
+  "plans": {
+    "title": "Lesson plans",
+    "intro": "Your plans are versioned: every change is a new version, and you can go back to any earlier one.",
+    "new": "New plan",
+    "empty": "No lesson plans yet",
+    "emptyHint": "Create one from the tools page or from the dashboard.",
+    "searchPlaceholder": "Search plans",
+    "filterStatus": "Status",
+    "statusAll": "All",
+    "statusDraft": "Draft",
+    "statusReady": "Ready",
+    "statusArchived": "Archived",
+    "columns": {
+      "title": "Title",
+      "grade": "Grade",
+      "subject": "Subject",
+      "version": "Version",
+      "updated": "Last changed"
+    },
+    "detail": {
+      "versionLabel": "Version {n}",
+      "current": "Current",
+      "versions": "Versions",
+      "history": "Change history",
+      "historyHint": "Versions are read-only. To correct the text, create a new version.",
+      "restore": "Make current",
+      "restoreHint": "Creates a new version with this text. Nothing is ever deleted.",
+      "duplicate": "Duplicate",
+      "archive": "Archive",
+      "unarchive": "Unarchive",
+      "meta": "Plan details",
+      "methodology": "Method",
+      "noMethodology": "No method chosen",
+      "stages": "Lesson stages",
+      "objectives": "Objectives",
+      "materials": "Materials",
+      "assessment": "Assessment",
+      "homework": "Homework",
+      "minutes": "{n} min",
+      "emptyVersion": "This version has no text yet."
+    },
+    "adjust": {
+      "title": "Adjust the result",
+      "intro": "Change what was generated without rewriting the request. Every adjustment creates a new version.",
+      "kind": "What to change",
+      "kinds": {
+        "reading_level": "Reading level",
+        "length": "Length",
+        "tone": "Tone",
+        "language": "Language",
+        "regenerate_section": "Regenerate a section"
+      },
+      "value": "To",
+      "section": "Section",
+      "instruction": "Anything else (optional)",
+      "instructionHint": "Do not write a student's name here.",
+      "apply": "Apply",
+      "applying": "Applying…",
+      "conflict": "This plan changed on another device. Reload to see the newest version before adjusting it.",
+      "publishedLocked": "Feedback that has already been sent to a student cannot be changed.",
+      "values": {
+        "grade_5": "Grade 5",
+        "grade_6": "Grade 6",
+        "grade_7": "Grade 7",
+        "grade_8": "Grade 8",
+        "grade_9": "Grade 9",
+        "shorter": "Shorter",
+        "longer": "Longer",
+        "formal": "Formal",
+        "simpler": "Simpler",
+        "ar": "Arabic",
+        "en": "English"
+      }
+    }
+  },
+  "methods": {
+    "title": "Teaching methods",
+    "intro": "Pick a method, or let the generator suggest one. Every method is written for the Bahraini classroom, not translated into it.",
+    "featured": "Method of the week",
+    "browse": "Browse {count} methods",
+    "filters": {
+      "group": "Grouping",
+      "duration": "Duration",
+      "all": "All",
+      "wholeClass": "Whole class",
+      "smallGroups": "Small groups",
+      "pairsIndividual": "Pairs / individual",
+      "under15": "Under 15 min",
+      "15to30": "15–30 min",
+      "over30": "Over 30 min",
+      "classSize": "Class size"
+    },
+    "card": {
+      "duration": "{n} min",
+      "groupSize": "{min}–{max} students",
+      "use": "Use it"
+    },
+    "helper": {
+      "title": "Which one should I run tomorrow?",
+      "intro": "Pick the situation closest to your class and we will suggest a method.",
+      "close": "Hide"
+    },
+    "situations": {
+      "everyoneSpeaks": "I want every student to say something, not just the talkative ones.",
+      "denseContent": "I need to cover dense content in one period.",
+      "examineEvidence": "I want students to examine evidence, not just read about it."
+    },
+    "reasons": {
+      "everyoneSpeaks": "Every student writes before anyone speaks, which equalises participation.",
+      "denseContent": "The topic is split into parts, so each student learns one and teaches the rest.",
+      "examineEvidence": "Students work with primary sources and reconstruct the meaning themselves."
+    },
+    "empty": "No methods match those filters.",
+    "emptyHint": "Try removing one or two filters."
+  },
+  "feedback": {
+    "title": "Feedback",
+    "intro": "Nothing reaches a student until you have reviewed it and approved it yourself.",
+    "queue": "Waiting for review",
+    "published": "Published",
+    "empty": "Nothing to review",
+    "emptyHint": "Generated feedback appears here as a draft until you approve it.",
+    "student": "Student",
+    "style": "Style",
+    "styles": {
+      "targeted": "Targeted feedback",
+      "glow_grow": "Glow & grow",
+      "rubric_criteria": "Rubric criteria",
+      "next_steps": "Next steps"
+    },
+    "sections": {
+      "glows": "Strengths",
+      "grows": "Areas to grow",
+      "wonderings": "Wonderings",
+      "nextSteps": "Next steps",
+      "body": "Feedback"
+    },
+    "gate": {
+      "stagedNotice": "Draft — the student cannot see this.",
+      "approve": "Approve",
+      "approved": "Approved",
+      "publish": "Send to student",
+      "discard": "Discard",
+      "approvedBy": "Approved by {name}",
+      "publishedOn": "Sent {date}",
+      "confirmPublish": "Send this feedback to the student? This cannot be undone.",
+      "confirmDiscard": "Discard this feedback? It will not be sent.",
+      "invalidTransition": "That change is not allowed from the current state."
+    },
+    "emptyPayload": "No feedback yet."
+  },
+  "agents": {
+    "title": "Agents",
+    "intro": "Each task is run by a specialised agent inside curriculum rules, with the teacher in charge.",
+    "requiresReview": "Output from this agent is a draft until you approve it",
+    "noReview": "Output from this agent is ready as-is",
+    "disabled": "Disabled",
+    "promptVersion": "Prompt version"
+  },
+  "sync": {
+    "offline": "You are offline. Showing a saved copy of your plans.",
+    "offlineHint": "Student marks are never stored on this device.",
+    "lastSynced": "Last synced {when}",
+    "never": "Not synced yet"
   }
 }

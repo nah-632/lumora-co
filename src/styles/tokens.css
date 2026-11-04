@@ -1,0 +1,283 @@
+/* ==========================================================================
+   LUMORA — design tokens
+   ==========================================================================
+   THE single source of truth for every visual value. Nothing in a component
+   should contain a hex code, a pixel radius or a shadow.
+
+   Colours are declared twice on purpose:
+
+     --lumora-navy-rgb   29 42 68        the channels, space separated
+     --lumora-navy       rgb(var(…))     the usable colour
+
+   Tailwind consumes the -rgb triplet through `rgb(var(--x-rgb) / <alpha-value>)`,
+   which is what makes `bg-navy/50` work. Declaring only the finished `rgb()`
+   value breaks every opacity modifier, and that failure is silent.
+
+   Brand-locked. The five brand colours come from LUMORA-CONSTITUTION.md §3.1 and
+   nothing may be added to them. The neutrals below are navy-tinted derivatives
+   with their measured contrast recorded in DESIGN-SYSTEM.md; they are the only
+   extension, and they exist because a UI needs a border colour and a secondary
+   text colour that the five brand values do not provide.
+
+   Gold is decoration only. It never sets text, and never sits on a light
+   surface as type.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+     1. Brand palette — the five, locked
+     ------------------------------------------------------------------------ */
+
+  --lumora-navy-rgb: 29 42 68;          /* Deep Navy        #1D2A44 */
+  --lumora-purple-rgb: 75 30 97;        /* Educator Purple  #4B1E61 */
+  --lumora-red-rgb: 218 41 28;          /* Bahraini Red     #DA291C */
+  --lumora-gold-rgb: 212 175 55;        /* Lumora Gold      #D4AF37 */
+  --lumora-paper-rgb: 248 249 250;      /* Off-White        #F8F9FA */
+  --lumora-white-rgb: 255 255 255;
+
+  --lumora-navy: rgb(var(--lumora-navy-rgb));
+  --lumora-purple: rgb(var(--lumora-purple-rgb));
+  --lumora-red: rgb(var(--lumora-red-rgb));
+  --lumora-gold: rgb(var(--lumora-gold-rgb));
+  --lumora-paper: rgb(var(--lumora-paper-rgb));
+  --lumora-white: rgb(var(--lumora-white-rgb));
+
+  /* ------------------------------------------------------------------------
+     2. Neutrals — navy-tinted, the only permitted extension
+     ------------------------------------------------------------------------ */
+
+  --lumora-ink-rgb: 29 42 68;           /* = navy. 12.4:1 on off-white */
+  --lumora-ink: rgb(var(--lumora-ink-rgb));
+  /* Body copy: #4F5871, 7.0:1 on off-white. */
+  --lumora-ink-soft-rgb: 79 88 113;
+  --lumora-ink-soft: rgb(var(--lumora-ink-soft-rgb));
+  /* Captions and labels: #6A7288, 4.55:1 on off-white and 4.80:1 on white —
+     safe on BOTH grounds. This was #6B7388, which measured 4.494:1 on the
+     off-white page — a 0.006 miss that DESIGN.md had documented around by
+     saying "use on white only". A token that is only safe on one of the two
+     grounds the product actually uses is a trap, so it was darkened by one
+     unit per channel instead. Caught by scripts/check-contrast.py. */
+  --lumora-ink-muted-rgb: 106 114 136;
+  --lumora-ink-muted: rgb(var(--lumora-ink-muted-rgb));
+  /* Structure only. 1px hairlines; never a text colour. */
+  --lumora-line-rgb: 227 230 236;
+  --lumora-line: rgb(var(--lumora-line-rgb));
+  --lumora-line-strong: #C9CFD9;
+
+  /* ------------------------------------------------------------------------
+     3. Semantic surfaces and text
+     ------------------------------------------------------------------------ */
+
+  --surface-ground: var(--lumora-paper);   /* the page */
+  --surface-raised: var(--lumora-white);   /* cards, inputs, popovers */
+  --surface-sunken: #F1F3F6;               /* wells, inset areas */
+  --surface-dark: var(--lumora-navy);      /* sidebar, footer */
+  --surface-accent-soft: rgb(var(--lumora-purple-rgb) / 0.08);
+
+  --text-primary: var(--lumora-ink);
+  --text-secondary: var(--lumora-ink-soft);
+  --text-muted: var(--lumora-ink-muted);
+  --text-on-dark: #FFFFFF;
+  --text-on-dark-soft: rgb(255 255 255 / 0.72);
+  --text-link: var(--lumora-purple);
+  --text-action: var(--lumora-red);
+
+  --border-hairline: var(--lumora-line);
+  --border-strong: var(--lumora-line-strong);
+  --border-dark: rgb(255 255 255 / 0.16);
+
+  /* ------------------------------------------------------------------------
+     4. Interaction states
+     ------------------------------------------------------------------------ */
+
+  /* Red darkens on hover rather than lightening: lightening would drop the
+     white label below AA. 4.6:1 -> 6.1:1. */
+  --action-primary: var(--lumora-red);
+  --action-primary-hover: #B82218;
+  --action-primary-active: #9E1D14;
+  --action-on-primary: #FFFFFF;
+
+  --focus-ring: var(--lumora-purple);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  /* A gold outer line is permitted on dark surfaces only. */
+  --focus-ring-on-dark: var(--lumora-gold);
+
+  /* System states. Permitted outside the brand palette by constitution §3.1. */
+  --state-success-rgb: 27 127 75;
+  --state-warning-rgb: 154 100 0;
+  --state-danger-rgb: 179 38 30;
+  --state-info-rgb: 29 78 137;
+  --state-success: rgb(var(--state-success-rgb));
+  --state-warning: rgb(var(--state-warning-rgb));
+  --state-danger: rgb(var(--state-danger-rgb));
+  --state-info: rgb(var(--state-info-rgb));
+  --state-success-soft: rgb(var(--state-success-rgb) / 0.10);
+  --state-warning-soft: rgb(var(--state-warning-rgb) / 0.10);
+  --state-danger-soft: rgb(var(--state-danger-rgb) / 0.10);
+  --state-info-soft: rgb(var(--state-info-rgb) / 0.10);
+
+  /* ------------------------------------------------------------------------
+     5. Typography
+     ------------------------------------------------------------------------
+     The Arabic family is listed FIRST in every stack. A Latin face that
+     claims Arabic codepoints renders them with colliding, unjoined letters —
+     this project has already been bitten by it once (see src/design/fonts.ts).
+     Per-glyph fallback does the work: Arabic resolves in the Arabic face, and
+     only characters it does not contain fall through to the Latin face.
+     ------------------------------------------------------------------------ */
+
+  --font-arabic: var(--font-text-ar), "Noto Naskh Arabic", system-ui, sans-serif;
+  --font-latin: var(--font-text-lat), "Inter Fallback", system-ui, sans-serif;
+  --font-mono: var(--font-mono-lat), ui-monospace, "SFMono-Regular", monospace;
+  /* Display: El Messiri. Kept and wired, see DESIGN-SYSTEM.md §2 on the open
+     question about whether headlines keep it or move to IBM Plex Sans Arabic. */
+  --font-display: var(--font-display-ar), var(--font-display-lat), "Noto Naskh Arabic", system-ui, sans-serif;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Fluid scale. The Arabic line heights are looser because the script sets
+     taller and needs the leading. */
+  --text-xs: 0.8125rem;   /* 13px — caption */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px — never smaller for body */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: clamp(1.375rem, 1.2rem + 0.7vw, 1.625rem);
+  --text-3xl: clamp(1.625rem, 1.35rem + 1.2vw, 2.125rem);
+  --text-4xl: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.4;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;   /* Arabic body */
+  --leading-loose: 1.9;
+
+  /* Arabic is never letter-spaced: tracking breaks joined letterforms. */
+  --tracking-arabic: 0;
+  --tracking-latin-label: 0.02em;
+  --tracking-english-eyebrow: 0.08em;
+
+  /* ------------------------------------------------------------------------
+     6. Space — strict 8px grid
+     ------------------------------------------------------------------------
+     Every value is a multiple of 8 except the 4px half-step, which exists for
+     optical adjustments inside a control (icon-to-label gaps) and is never
+     used for layout rhythm.
+     ------------------------------------------------------------------------ */
+
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 40px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+  --space-10: 96px;
+  --space-11: 128px;
+
+  /* ------------------------------------------------------------------------
+     7. Radius — one scale
+     ------------------------------------------------------------------------ */
+
+  --radius-xs: 4px;    /* inline chips, focus outline */
+  --radius-sm: 8px;    /* buttons, inputs, selects */
+  --radius-md: 12px;   /* nested cards, popovers */
+  --radius-lg: 16px;   /* cards */
+  --radius-xl: 20px;   /* modal, sheet */
+  --radius-pill: 999px;/* segmented control, badges */
+
+  /* ------------------------------------------------------------------------
+     8. Shadow — soft, layered, navy-tinted
+     ------------------------------------------------------------------------
+     Never coloured, never heavy. Each step is two layers: a tight contact
+     shadow and a wider ambient one, which is what reads as depth rather than
+     as a grey blur.
+     ------------------------------------------------------------------------ */
+
+  --shadow-xs: 0 1px 2px rgb(var(--lumora-navy-rgb) / 0.04);
+  --shadow-sm: 0 1px 3px rgb(var(--lumora-navy-rgb) / 0.06),
+               0 1px 2px rgb(var(--lumora-navy-rgb) / 0.04);
+  --shadow-md: 0 4px 12px rgb(var(--lumora-navy-rgb) / 0.08),
+               0 1px 3px rgb(var(--lumora-navy-rgb) / 0.05);
+  --shadow-lg: 0 6px 20px rgb(var(--lumora-navy-rgb) / 0.10),
+               0 2px 6px rgb(var(--lumora-navy-rgb) / 0.05);
+  --shadow-xl: 0 8px 30px rgb(var(--lumora-navy-rgb) / 0.10),
+               0 2px 8px rgb(var(--lumora-navy-rgb) / 0.06);
+  --shadow-focus: 0 0 0 3px rgb(var(--lumora-purple-rgb) / 0.18);
+
+  /* ------------------------------------------------------------------------
+     9. Motion — 150–250ms, transform and opacity only
+     ------------------------------------------------------------------------ */
+
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 250ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ------------------------------------------------------------------------
+     10. Layout and layering
+     ------------------------------------------------------------------------ */
+
+  --container-max: 1200px;
+  --sidebar-width: 264px;
+  --bottom-nav-height: 64px;
+  --tap-target-min: 44px;
+
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-drawer: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+}
+
+/* --------------------------------------------------------------------------
+   Dark theme
+   --------------------------------------------------------------------------
+   Constitution §3.1 asks for one that preserves the identity. Navy becomes the
+   ground rather than the ink, and red/gold keep their roles. Only the semantic
+   layer flips — the brand values themselves are unchanged, which is the point
+   of having both layers.
+   -------------------------------------------------------------------------- */
+
+[data-theme="dark"] {
+  --surface-ground: #16203A;
+  --surface-raised: #1D2A44;
+  --surface-sunken: #111A2E;
+  --surface-dark: #111A2E;
+  --surface-accent-soft: rgb(var(--lumora-purple-rgb) / 0.24);
+
+  --text-primary: #F2F4F8;
+  --text-secondary: #C3CAD8;
+  --text-muted: #96A0B4;
+  --text-link: #C9A6E0;
+
+  --border-hairline: rgb(255 255 255 / 0.12);
+  --border-strong: rgb(255 255 255 / 0.22);
+
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.30), 0 1px 2px rgb(0 0 0 / 0.24);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.34), 0 1px 3px rgb(0 0 0 / 0.26);
+  --shadow-lg: 0 6px 20px rgb(0 0 0 / 0.38), 0 2px 6px rgb(0 0 0 / 0.28);
+  --shadow-xl: 0 8px 30px rgb(0 0 0 / 0.40), 0 2px 8px rgb(0 0 0 / 0.30);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 1ms;
+    --duration-base: 1ms;
+    --duration-slow: 1ms;
+  }
+}
